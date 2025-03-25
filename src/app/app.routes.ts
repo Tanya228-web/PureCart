@@ -1,3 +1,25 @@
-import { Routes } from '@angular/router';
+import { Component } from '@angular/core';
+import { Routes, CanActivate } from '@angular/router';
+import { HomeComponent } from './home/home.component';
+import { SellerComponent } from './seller/seller.component';
+import { SellerHomeComponent } from './seller-home/seller-home.component';
+import { authGuard } from './auth.guard';
 
-export const routes: Routes = [];
+import { SellerAddProductComponent } from './seller-add-product/seller-add-product.component';
+
+export const routes: Routes = [
+  { path: '', component: HomeComponent },
+  { path: 'seller', component: SellerComponent },
+  //{ path: 'login', component: LoginComponent },
+  //{ path: 'cart', component: CartComponent },
+  {
+    path: 'seller-home',
+    component: SellerHomeComponent,
+    canActivate: [authGuard],
+  },
+  {
+    path: 'seller-addProduct',
+    component: SellerAddProductComponent,
+    canActivate: [authGuard],
+  },
+];

@@ -1,0 +1,28 @@
+<nav class="nav">
+  <h1><a routerLink="">PureCart</a></h1>
+  @if(isMenu){
+  <div class="nav-search">
+    <input type="text" placeholder="search products" />
+    <button>Search</button>
+  </div>
+  }
+  <ul>
+    @if(isMenu){
+    <li><a routerLink="seller">Seller</a></li>
+    <li><a routerLink="">Home</a></li>
+
+    <li><a href="#">Login</a></li>
+    <li><a href="#">Cart(0)</a></li>
+
+    } @else {
+    <li><a routerLink="seller-addProduct">add product</a></li>
+    <li><a routerLink="seller-home">list</a></li>
+
+    <li>
+      <a>{{ sellerName}}</a>
+    </li>
+    <li><a (click)="logout()">Logout</a></li>
+
+    }
+  </ul>
+</nav>

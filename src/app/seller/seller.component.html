@@ -1,0 +1,69 @@
+@if(isShow){
+    
+<div class="login">
+  <h1>LOGIN</h1>
+  <p class="error-p"> {{errorMsg}}</p>
+
+  <form
+    #sellerlogin="ngForm"
+    class="common-form"
+    (ngSubmit)="login(sellerlogin.value)"
+  >
+    <input
+      type="text"
+      class="form-input"
+      placeholder="Enter Email"
+      name="Email"
+      ngModel
+    />
+
+    <input
+      type="password"
+      class="form-input"
+      placeholder="Enter Password"
+      name="Password"
+      ngModel
+    />
+
+    <button>LOGIN</button>
+    <p style="color:blue; cursor:pointer" class="auth-toggle-link" (click)="isShow=!isShow">don't have an account? SIGN-UP </p>
+  </form>
+</div>
+} @else {
+<div class="seller-auth">
+  <div class="sign-up">
+    <h1>Seller-SignUp</h1>
+    <form
+      #sellerSignUp="ngForm"
+      class="common-form"
+      (ngSubmit)="signUp(sellerSignUp.value)"
+    >
+      <input
+        type="text"
+        class="form-input"
+        placeholder="Enter Name"
+        name="Name"
+        ngModel
+      />
+      <input
+        type="password"
+        class="form-input"
+        placeholder="Enter Password"
+        name="Password"
+        ngModel
+      />
+      <input
+        type="text"
+        class="form-input"
+        placeholder="Enter Email"
+        name="Email"
+        ngModel
+      />
+      <button>SIGN UP</button>
+      
+      <p style="color: blue;  cursor: pointer;"  class="auth-toggle-link"  (click)="isShow = !isShow">Don't have an account? SIGN-UP</p>
+
+    </form>
+  </div>
+</div>
+}
