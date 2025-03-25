@@ -14,13 +14,17 @@
         </tr>
       </thead>
       <tbody>
-        <tr *ngFor="let item of products">
+        <tr *ngFor="let item of products" >
+            
           <td><img src="{{ item.image }}" /></td>
           <td>{{ item.name }}</td>
           <td>{{ item.price }}</td>
           <td>{{ item.color }}</td>
           <td>{{ item.category }}</td>
           <td>{{ item.description }}</td>
+          <button (click)="editProduct()">edit</button>
+          <button (click)="deleteProduct(item.id)">delete</button>
+
           <!-- <td>
             <fa-icon [icon]="icon"></fa-icon>
             <a class="adjust-update-link" > <fa-icon  [icon]="iconEdit"></fa-icon></a>

@@ -12,9 +12,19 @@ export class SellerHomeComponent {
   products: any = [];
   constructor(private service: ProductServicesService) {}
   ngOnInit() {
+    this.getProduct();
+  }
+  getProduct() {
     this.service.getProduct().subscribe((data) => {
       this.products = data;
-      console.log(this.products)
+      console.log(this.products);
     });
   }
+  deleteProduct(item: any) {
+    this.service.removeProduct(item).subscribe((data: any) => {
+      console.log(data);
+      this.getProduct();
+    });
+  }
+  
 }

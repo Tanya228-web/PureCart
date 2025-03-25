@@ -16,5 +16,13 @@ export class ProductServicesService {
     let url='http://localhost:3000/products'
     return  this.http.get(url)
   }
+  removeProduct(id:any){
+    let url=`http://localhost:3000/products/${id}`
+    return this.http.delete(url,id)
+
+  }
+  editProduct(){
+    
+  }
 
 }
