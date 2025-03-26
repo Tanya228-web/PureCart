@@ -18,11 +18,19 @@ export class ProductServicesService {
   }
   removeProduct(id:any){
     let url=`http://localhost:3000/products/${id}`
-    return this.http.delete(url,id)
+    return this.http.delete(url)
 
   }
-  editProduct(){
+  editProduct(data:any,id:any){
+    let url=`http://localhost:3000/products/${id}`
+    return this.http.patch(url,data)
+
     
+  }
+  getSellerData(id:any){
+    let url=`http://localhost:3000/products/${id}`
+    return this.http.get(url)
+
   }
 
 }

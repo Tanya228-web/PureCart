@@ -1,0 +1,60 @@
+<div class="add-product">
+    <h1>Add New Product</h1>
+    <!-- <p class="message-p">{{ addProductMessage }}</p> -->
+    <form
+      #addProduct="ngForm"
+      (ngSubmit)="editHandler(addProduct.value)"
+      class="common-form"
+    >
+      <input
+        type="text"
+        class="form-input"
+        placeholder="Enter Product Name"
+        name="name"
+        [(ngModel)]="sellerData.name"
+        
+      />
+      <input
+        type="text"
+        class="form-input"
+        placeholder="Enter Product Price"
+        name="price"
+        [(ngModel)]="sellerData.price"
+      />
+      
+      <select  class = 'form-input' name="category" [(ngModel)]="sellerData.category" >
+        <option value=""  >Select Product Category</option>
+        <option value="clothes">Clothes</option>
+        <option value="electonics">Electronics</option>
+        <option value="groceries">Groceries</option>
+        <option value="beverages">Beverages</option>
+      </select>
+      <p> {{ sellerData.category }}</p>
+  
+  
+      <input
+        type="text"
+        class="form-input"
+        placeholder="Enter Product Color"
+        name="color"
+        [(ngModel)]="sellerData.color"
+      />
+      <textarea
+        type="text"
+        class="form-input"
+        placeholder="Enter Product Description"
+        name="description"
+         [(ngModel)]="sellerData.description"
+      ></textarea>
+  
+      <input
+        type="text"
+        class="form-input"
+        placeholder="Enter Product Image URL"
+        name="image"
+        [(ngModel)]="sellerData.image"
+      />
+      <button class="form-button">Update Product</button>
+    </form>
+  </div>
+  

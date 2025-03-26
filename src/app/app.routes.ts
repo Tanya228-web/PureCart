@@ -7,6 +7,8 @@ import { authGuard } from './auth.guard';
 
 import { SellerAddProductComponent } from './seller-add-product/seller-add-product.component';
 
+import { SellerEditComponent } from './seller-edit/seller-edit.component';
+
 export const routes: Routes = [
   { path: '', component: HomeComponent },
   { path: 'seller', component: SellerComponent },
@@ -22,4 +24,9 @@ export const routes: Routes = [
     component: SellerAddProductComponent,
     canActivate: [authGuard],
   },
+  {
+  path:'seller/:id/edit',
+  component:SellerEditComponent,
+  canActivate:[authGuard]
+  }
 ];
