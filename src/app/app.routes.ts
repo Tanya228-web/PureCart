@@ -8,11 +8,15 @@ import { authGuard } from './auth.guard';
 import { SellerAddProductComponent } from './seller-add-product/seller-add-product.component';
 
 import { SellerEditComponent } from './seller-edit/seller-edit.component';
+import { ProductDetailsComponent } from './product-details/product-details.component';
+import { UserComponent } from './user/user.component';
+
+
 
 export const routes: Routes = [
   { path: '', component: HomeComponent },
   { path: 'seller', component: SellerComponent },
-  //{ path: 'login', component: LoginComponent },
+  { path: 'userlogin', component:UserComponent },
   //{ path: 'cart', component: CartComponent },
   {
     path: 'seller-home',
@@ -25,8 +29,16 @@ export const routes: Routes = [
     canActivate: [authGuard],
   },
   {
-  path:'seller/:id/edit',
-  component:SellerEditComponent,
-  canActivate:[authGuard]
+    path: 'seller/:id/edit',
+    component: SellerEditComponent,
+    canActivate: [authGuard],
+  },
+  {
+    path: 'product/:id/productDetails',
+    component:ProductDetailsComponent
+  },
+  {
+    path: 'user-auth',
+    component:UserComponent
   }
 ];

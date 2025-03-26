@@ -49,7 +49,7 @@ export class AuthserviceService {
         }
       });
     }
-    userlogout() {
+    sellerlogout() {
       localStorage.removeItem('result');
       this.router.navigate(['seller']);
     }

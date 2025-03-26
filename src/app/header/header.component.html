@@ -10,8 +10,12 @@
     @if(isMenu){
     <li><a routerLink="seller">Seller</a></li>
     <li><a routerLink="">Home</a></li>
+  @if(!isLogin){
+    <li><a routerLink="userlogin">Login</a></li>
+  }@else{
+    <li><a (click)="userLogout()">Logout</a></li>
+  }
 
-    <li><a href="#">Login</a></li>
     <li><a href="#">Cart(0)</a></li>
 
     } @else {
@@ -19,9 +23,9 @@
     <li><a routerLink="seller-home">list</a></li>
 
     <li>
-      <a>{{ sellerName}}</a>
+      <a>{{ sellerName }}</a>
     </li>
-    <li><a (click)="logout()">Logout</a></li>
+    <li><a (click)="sellerLogout()">Logout</a></li>
 
     }
   </ul>
