@@ -3,6 +3,7 @@ import { ActivatedRoute } from '@angular/router';
 import { UserService } from '../services/user.service';
 import { NgIf } from '@angular/common';
 import { NgModel } from '@angular/forms';
+import { ProductServicesService } from '../services/product-services.service';
 
 @Component({
   selector: 'app-product-details',
@@ -14,7 +15,11 @@ export class ProductDetailsComponent {
   productCount: number = 1;
   id: any = '';
   singleDetail: any = {};
-  constructor(private router: ActivatedRoute, private service: UserService) {}
+  constructor(
+    private router: ActivatedRoute,
+    private service: UserService,
+    private productservice: ProductServicesService
+  ) {}
   ngOnInit() {
     this.router.paramMap.subscribe((data: any) => {
       this.id = data.params.id;
@@ -33,5 +38,30 @@ export class ProductDetailsComponent {
       this.productCount++;
     }
   }
-  
+
+  addToCart() {
+    let userData = localStorage.getItem('users');
+    let getData = userData && JSON.parse(userData);
+    
+    let data={...this.singleDetail,"userid":getData.id,"name":"tanya"}
+    console.log(data)
+    
+    let cartData = {
+      name: this.singleDetail.name,
+      price: this.singleDetail.price,
+      category: this.singleDetail.category,
+      color: this.singleDetail.color,
+      description: this.singleDetail.description,
+      image: this.singleDetail.image,
+      quantity: this.productCount,
+      productId: this.singleDetail.id,
+      userId: getData.id,
+    };
+    // console.log("data",data)
+    // console.log("cartdata",cartData)
+
+    this.productservice
+      .addCart(cartData)
+      .subscribe((data: any) => console.log(data));
+  }
 }

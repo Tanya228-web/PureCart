@@ -34,12 +34,8 @@ export class HeaderComponent {
         }
       }
       
-    });
-    this.toggleLogin()
-
-   
-  }
-  toggleLogin(){
+    } );
+    
   let userData= localStorage.getItem('users')
   console.log(userData)
   let newData=userData && JSON.parse(userData)
@@ -50,8 +46,14 @@ export class HeaderComponent {
   }
   else{
     this.isLogin=false;
-  }
+    
+  
 }
+   
+
+   
+  }
+  
 
 
   sellerLogout() {

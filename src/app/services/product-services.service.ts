@@ -1,3 +1,4 @@
+import { ProductDetailsComponent } from './../product-details/product-details.component';
 import { Injectable } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
 
@@ -30,6 +31,11 @@ export class ProductServicesService {
   getSellerData(id:any){
     let url=`http://localhost:3000/products/${id}`
     return this.http.get(url)
+
+  }
+  addCart(data:any){
+    let url = 'http://localhost:3000/cart'
+    return this.http.post(url,data)
 
   }
 

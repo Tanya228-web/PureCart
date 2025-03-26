@@ -28,4 +28,5 @@ export class UserService {
     localStorage.removeItem('users');
     this.router.navigate(['userlogin'])
   }
+  
 }
