@@ -38,5 +38,12 @@ export class ProductServicesService {
     return this.http.post(url,data)
 
   }
+  getCart()
+  {
+     let url = 'http://localhost:3000/cart'
+     return this.http.get(url)
+    
+  }
+ 
 
 }

@@ -1,5 +1,5 @@
 import { Component } from '@angular/core';
-import { ActivatedRoute } from '@angular/router';
+import { ActivatedRoute, Router } from '@angular/router';
 import { UserService } from '../services/user.service';
 import { NgIf } from '@angular/common';
 import { NgModel } from '@angular/forms';
@@ -18,7 +18,8 @@ export class ProductDetailsComponent {
   constructor(
     private router: ActivatedRoute,
     private service: UserService,
-    private productservice: ProductServicesService
+    private productservice: ProductServicesService,
+    private route:Router
   ) {}
   ngOnInit() {
     this.router.paramMap.subscribe((data: any) => {
@@ -43,8 +44,8 @@ export class ProductDetailsComponent {
     let userData = localStorage.getItem('users');
     let getData = userData && JSON.parse(userData);
     
-    let data={...this.singleDetail,"userid":getData.id,"name":"tanya"}
-    console.log(data)
+    // let data={...this.singleDetail,"userid":getData.id,"name":"tanya"}
+  
     
     let cartData = {
       name: this.singleDetail.name,
@@ -55,13 +56,16 @@ export class ProductDetailsComponent {
       image: this.singleDetail.image,
       quantity: this.productCount,
       productId: this.singleDetail.id,
-      userId: getData.id,
+      userId: getData.id,//current user id
     };
     // console.log("data",data)
     // console.log("cartdata",cartData)
 
     this.productservice
       .addCart(cartData)
-      .subscribe((data: any) => console.log(data));
+      .subscribe((data: any) => data);
+      this.route.navigate(['addToCart'])
+
+
   }
 }
