@@ -10,14 +10,14 @@
           <span> {{ cart.name }}</span>
         </li>
         <li>
-          <span> Price : {{ cart.price }}</span>
+          <span> Price : {{ +cart.price * +cart.quantity}}</span>
         </li>
         <li>
           <span> Quantity : {{ cart.quantity }}</span>
         </li>
-        <!-- <li >
+        <li >
                <button class="form-button"(click)="removeToCart(cart.id)" >Remove To Cart</button>
-            </li> -->
+            </li>
       </ul>
     </div>
     <div class="col-sm-4 summary">

@@ -1,6 +1,7 @@
 import { ProductDetailsComponent } from './../product-details/product-details.component';
 import { Injectable } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
+import { AnyCatcher } from 'rxjs/internal/AnyCatcher';
 
 @Injectable({
   providedIn: 'root'
@@ -34,15 +35,19 @@ export class ProductServicesService {
 
   }
   addCart(data:any){
-    let url = 'http://localhost:3000/cart'
+    let url = 'http://localhost:3000/cart?'
     return this.http.post(url,data)
 
   }
-  getCart()
+  getCart(id:any)
   {
-     let url = 'http://localhost:3000/cart'
+     let url = 'http://localhost:3000/cart?userId='+id
      return this.http.get(url)
     
+  }
+  removeCartItem(id:any){
+    let url=`http://localhost:3000/cart/${id}`
+    return this.http.delete(url)
   }
  
 

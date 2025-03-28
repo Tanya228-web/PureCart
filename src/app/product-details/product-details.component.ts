@@ -44,20 +44,22 @@ export class ProductDetailsComponent {
     let userData = localStorage.getItem('users');
     let getData = userData && JSON.parse(userData);
     
-    // let data={...this.singleDetail,"userid":getData.id,"name":"tanya"}
+    let cartData={...this.singleDetail,"userid":getData.id,"productId":this.singleDetail.id,"quantity":this.productCount}
+    delete cartData.id
+    console.log(cartData)
   
     
-    let cartData = {
-      name: this.singleDetail.name,
-      price: this.singleDetail.price,
-      category: this.singleDetail.category,
-      color: this.singleDetail.color,
-      description: this.singleDetail.description,
-      image: this.singleDetail.image,
-      quantity: this.productCount,
-      productId: this.singleDetail.id,
-      userId: getData.id,//current user id
-    };
+    // let cartData = {
+    //   name: this.singleDetail.name,
+    //   price: this.singleDetail.price,
+    //   category: this.singleDetail.category,
+    //   color: this.singleDetail.color,
+    //   description: this.singleDetail.description,
+    //   image: this.singleDetail.image,
+    //   quantity: this.productCount,
+    //   productId: this.singleDetail.id,
+    //   userId: getData.id,//current user id
+    // };
     // console.log("data",data)
     // console.log("cartdata",cartData)
 
