@@ -11,6 +11,8 @@ import { SellerEditComponent } from './seller-edit/seller-edit.component';
 import { ProductDetailsComponent } from './product-details/product-details.component';
 import { UserComponent } from './user/user.component';
 import { AddToCartComponent } from './add-to-cart/add-to-cart.component';
+import { CheckoutComponent } from './checkout/checkout.component';
+import { OrderComponent } from './order/order.component';
 
 
 
@@ -45,6 +47,15 @@ export const routes: Routes = [
   {
     path:'addToCart',
     component:AddToCartComponent
+  },
+  {
+    path:'checkout',
+    component:CheckoutComponent
+  }
+  ,
+  {
+    path:'order',
+    component:OrderComponent
   }
 
 ];

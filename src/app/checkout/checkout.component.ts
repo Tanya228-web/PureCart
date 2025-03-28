@@ -1,17 +1,20 @@
-import { NgFor } from '@angular/common';
 import { Component } from '@angular/core';
-import { ProductServicesService } from '../services/product-services.service';
+import { FormsModule, NgForm } from '@angular/forms';
+
+import { NgModel } from '@angular/forms';
 import { Router } from '@angular/router';
+import { ProductServicesService } from '../services/product-services.service';
 
 @Component({
-  selector: 'app-add-to-cart',
-  imports: [NgFor],
-  templateUrl: './add-to-cart.component.html',
-  styleUrl: './add-to-cart.component.css',
+  selector: 'app-checkout',
+  imports: [FormsModule],
+  templateUrl: './checkout.component.html',
+  styleUrl: './checkout.component.css',
 })
-export class AddToCartComponent {
+export class CheckoutComponent {
   cartData: any = [];
-  
+  parseData: any = {};
+
   priceSummary = {
     price: 0,
     discount: 0,
@@ -20,7 +23,10 @@ export class AddToCartComponent {
     total: 0,
   };
 
-  constructor(private productService: ProductServicesService,private router:Router) {}
+  constructor(
+    private productService: ProductServicesService,
+    private router: Router
+  ) {}
 
   ngOnInit() {
     this.getCartData();
@@ -28,14 +34,14 @@ export class AddToCartComponent {
 
   getCartData() {
     let userData = localStorage.getItem('users');
-    let parseData = userData ? JSON.parse(userData) : null;
+    this.parseData = userData ? JSON.parse(userData) : null;
 
-    if (!parseData || !parseData.id) {
+    if (!this.parseData || !this.parseData.id) {
       console.error('User data not found or invalid');
       return;
     }
 
-    this.productService.getCart(parseData.id).subscribe((data: any) => {
+    this.productService.getCart(this.parseData.id).subscribe((data: any) => {
       this.cartData = data;
 
       // Reset priceSummary before recalculating
@@ -57,7 +63,7 @@ export class AddToCartComponent {
       // Apply proper rounding
       this.priceSummary.discount = Math.round(this.priceSummary.price * 0.1);
       this.priceSummary.tax = Math.round(this.priceSummary.price * 0.2);
-      this.priceSummary.total = 
+      this.priceSummary.total =
         this.priceSummary.price +
         this.priceSummary.tax +
         this.priceSummary.delivery -
@@ -67,13 +73,20 @@ export class AddToCartComponent {
     });
   }
 
-  removeToCart(id: any) {
-    this.productService.removeCartItem(id).subscribe((data: any) => {
-      console.log('Item removed:', data);
-      this.getCartData(); // Refresh cart after removal
-    });
-  }
-  checkOut(){
-  this.router.navigate(['checkout'])
+  orderDetails(value: any) {
+    let obj = {
+      ...value,
+      totalPrice: this.priceSummary.price,
+      userId: this.parseData.id
+
+      
+    };
+    this.productService.order(obj).subscribe((data:any)=>{
+      this.cartData.forEach((data:any)=>{
+        this.productService.removeCartItem(data.id).subscribe((data:any)=>console.log(data))
+      })
+      this.router.navigate(['order'])
+    })
+  
   }
 }
