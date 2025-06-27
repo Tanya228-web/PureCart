@@ -1,25 +1,113 @@
-<div class="row product-details" *ngIf="singleDetail">
-    <div class="col-sm-6">
-    <img  class="product-img" src="{{singleDetail.image}}" alt="">
-    </div>
-    <div class="col-sm-6">
-        <div class="details">
-            <h1>{{singleDetail.name}}</h1>
-            <h3>Price : {{singleDetail.price}}</h3>
-            <div>Color :<h3 [style.backgroundColor]="singleDetail.color" class="product-color"></h3></div>
-            <h6>Category : {{singleDetail.category}}</h6>
-            <h6>Description : {{singleDetail.description}}</h6>
-            <button class="form-button">Buy Now</button>
-          
-            <button  class="form-button" (click)="addToCart()">Add to Cart</button> 
-            <div class="quantity-group">
-                
-                <button (click)="productCounter('dec')">-</button>
-                <input type="text" value="{{productCount}}" />
-                <button (click)="productCounter('inc')">+</button>
-    
-            </div>
+<div class="product-detail-container" *ngIf="singleDetail">
+  <div class="product-detail-grid">
+    <!-- Product Image Gallery -->
+    <div class="product-gallery">
+      <div class="main-image">
+        <img [src]="singleDetail.image" [alt]="singleDetail.name" class="product-image" />
+      </div>
+      <div class="thumbnail-container" *ngIf="singleDetail.images?.length">
+        <div *ngFor="let img of singleDetail.images" class="thumbnail" (click)="changeMainImage(img)">
+          <img [src]="img" [alt]="singleDetail.name + ' thumbnail'" />
         </div>
+      </div>
     </div>
+
+    <!-- Product Info -->
+    <div class="product-info">
+      <div class="breadcrumb">
+        <a routerLink="/">Home</a> / 
+        <a [routerLink]="['/category', singleDetail.category]">{{singleDetail.category}}</a> / 
+        <span>{{singleDetail.name}}</span>
+      </div>
+
+      <h1 class="product-title">{{singleDetail.name}}</h1>
+      
+      <div class="price-section">
+        <span class="current-price">₹{{singleDetail.price}}</span>
+        <span *ngIf="singleDetail.originalPrice" class="original-price">₹{{singleDetail.originalPrice}}</span>
+        <span *ngIf="singleDetail.discount" class="discount-badge">Save {{singleDetail.discount}}%</span>
+      </div>
+
+      <div class="color-selector">
+        <span class="label">Color:</span>
+        <div class="color-option" 
+             [style.backgroundColor]="singleDetail.color" 
+             [title]="singleDetail.color"
+             [class.selected]="true">
+        </div>
+      </div>
+
+      <div class="product-meta">
+        <div class="meta-item">
+          <span class="label">Category:</span>
+          <span class="value">{{singleDetail.category}}</span>
+        </div>
+        <div class="meta-item" *ngIf="singleDetail.brand">
+          <span class="label">Brand:</span>
+          <span class="value">{{singleDetail.brand}}</span>
+        </div>
+        <div class="meta-item" *ngIf="singleDetail.availability">
+          <span class="label">Availability:</span>
+          <span class="value in-stock" *ngIf="singleDetail.stock > 0">In Stock ({{singleDetail.stock}} left)</span>
+          <span class="value out-of-stock" *ngIf="singleDetail.stock <= 0">Out of Stock</span>
+        </div>
+      </div>
+
+      <div class="product-description">
+        <h3>Description</h3>
+        <p>{{singleDetail.description}}</p>
+      </div>
+
+      <div class="quantity-selector">
+        <span class="label">Quantity:</span>
+        <div class="quantity-controls">
+          <button (click)="productCounter('dec')" [disabled]="productCount <= 1">-</button>
+          <input type="number" min="1" [max]="singleDetail.stock" [(ngModel)]="productCount" />
+          <button (click)="productCounter('inc')" [disabled]="productCount >= singleDetail.stock">+</button>
+        </div>
+      </div>
+
+      <div class="action-buttons">
+        <button class="btn-add-to-cart" (click)="addToCart()" [disabled]="singleDetail.stock <= 0">
+          <span *ngIf="singleDetail.stock > 0">Add to Cart</span>
+          <span *ngIf="singleDetail.stock <= 0">Out of Stock</span>
+        </button>
+        <button class="btn-buy-now" (click)="buyNow()" [disabled]="singleDetail.stock <= 0">
+          Buy Now
+        </button>
+      </div>
+
+      <div class="product-actions">
+        <button class="wishlist-btn" (click)="addToWishlist()">
+          <i class="icon-heart"></i> Add to Wishlist
+        </button>
+        <button class="share-btn" (click)="shareProduct()">
+          <i class="icon-share"></i> Share
+        </button>
+      </div>
+    </div>
+  </div>
+
+  <!-- Product Tabs -->
+  <div class="product-tabs">
+    <div class="tabs-header">
+      <button [class.active]="activeTab === 'details'" (click)="activeTab = 'details'">Product Details</button>
+      <button [class.active]="activeTab === 'specs'" (click)="activeTab = 'specs'">Specifications</button>
+      <button [class.active]="activeTab === 'reviews'" (click)="activeTab = 'reviews'">Reviews</button>
     </div>
     
+    <div class="tab-content" *ngIf="activeTab === 'details'">
+      <p>{{singleDetail.longDescription || singleDetail.description}}</p>
+    </div>
+    
+    <div class="tab-content" *ngIf="activeTab === 'specs'">
+      <div class="specs-table">
+        <div *ngFor="let spec of singleDetail.specifications" class="spec-row">
+          <div class="spec-name">{{spec.name}}</div>
+          <div class="spec-value">{{spec.value}}</div>
+        </div>
+      </div>
+    </div>
+   
+  </div>
+</div>

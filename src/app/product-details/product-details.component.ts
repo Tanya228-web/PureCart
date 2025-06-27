@@ -1,73 +1,113 @@
 import { Component } from '@angular/core';
-import { ActivatedRoute, Router } from '@angular/router';
+import { ActivatedRoute, Router, RouterLink } from '@angular/router';
 import { UserService } from '../services/user.service';
-import { NgIf } from '@angular/common';
-import { NgModel } from '@angular/forms';
+import { NgFor, NgIf } from '@angular/common';
+import { FormsModule } from '@angular/forms';
 import { ProductServicesService } from '../services/product-services.service';
 
 @Component({
   selector: 'app-product-details',
-  imports: [NgIf],
+  standalone: true,
+  imports: [NgIf, FormsModule,RouterLink,NgFor],
   templateUrl: './product-details.component.html',
-  styleUrl: './product-details.component.css',
+  styleUrls: ['./product-details.component.css']
 })
 export class ProductDetailsComponent {
   productCount: number = 1;
-  id: any = '';
-  singleDetail: any = {};
+  id: string = '';
+  singleDetail: any = null;
+  activeTab: string = 'details';
+  isLoading: boolean = true;
+
   constructor(
     private router: ActivatedRoute,
-    private service: UserService,
-    private productservice: ProductServicesService,
-    private route:Router
+    private userService: UserService,
+    private productService: ProductServicesService,
+    private route: Router
   ) {}
+
   ngOnInit() {
-    this.router.paramMap.subscribe((data: any) => {
-      this.id = data.params.id;
-    });
-    this.service.getProduct(this.id).subscribe((d: any) => {
-      this.singleDetail = d;
-      console.log(this.singleDetail);
+    this.router.paramMap.subscribe(params => {
+      this.id = params.get('id') || '';
+      this.loadProductDetails();
     });
   }
-  productCounter(value: any) {
-    if (value == 'dec') {
-      if (this.productCount > 1) {
-        this.productCount--;
+
+  loadProductDetails() {
+    this.isLoading = true;
+    this.userService.getProduct(this.id).subscribe({
+      next: (product: any) => {
+        this.singleDetail = product;
+        // Initialize with default values if missing
+        this.singleDetail.stock = this.singleDetail.stock || 10;
+        this.isLoading = false;
+      },
+      error: (err) => {
+        console.error('Error loading product:', err);
+        this.isLoading = false;
       }
-    } else {
+    });
+  }
+
+  productCounter(operation: string) {
+    if (operation === 'dec' && this.productCount > 1) {
+      this.productCount--;
+    } else if (operation === 'inc' && this.productCount < (this.singleDetail?.stock || 10)) {
       this.productCount++;
     }
   }
 
   addToCart() {
-    let userData = localStorage.getItem('users');
-    let getData = userData && JSON.parse(userData);
-    
-    let cartData={...this.singleDetail,"userid":getData.id,"productId":this.singleDetail.id,"quantity":this.productCount}
-    delete cartData.id
-    console.log(cartData)
-  
-    
-    // let cartData = {
-    //   name: this.singleDetail.name,
-    //   price: this.singleDetail.price,
-    //   category: this.singleDetail.category,
-    //   color: this.singleDetail.color,
-    //   description: this.singleDetail.description,
-    //   image: this.singleDetail.image,
-    //   quantity: this.productCount,
-    //   productId: this.singleDetail.id,
-    //   userId: getData.id,//current user id
-    // };
-    // console.log("data",data)
-    // console.log("cartdata",cartData)
+    const userData = localStorage.getItem('users');
+    if (!userData) {
+      this.route.navigate(['/userlogin']);
+      return;
+    }
 
-    this.productservice
-      .addCart(cartData)
-      .subscribe((data: any) => data);
-      this.route.navigate(['addToCart'])
+    const user = JSON.parse(userData);
+    const cartData = {
+      ...this.singleDetail,
+      userId: user.id,
+      productId: this.singleDetail.id,
+      quantity: this.productCount
+    };
+    delete cartData.id;
 
+    this.productService.addCart(cartData).subscribe({
+      next: () => {
+        this.route.navigate(['/addToCart']);
+      },
+      error: (err) => {
+        console.error('Error adding to cart:', err);
+        alert('Failed to add product to cart');
+      }
+    });
+  }
 
+  buyNow() {
+    this.addToCart();
+    this.route.navigate(['/checkout']);
+  }
+
+  addToWishlist() {
+    // Implement wishlist functionality
+    alert('Added to wishlist');
+  }
+
+  shareProduct() {
+    // Implement share functionality
+    if (navigator.share) {
+      navigator.share({
+        title: this.singleDetail.name,
+        text: this.singleDetail.description,
+        url: window.location.href
+      }).catch(err => console.log('Error sharing:', err));
+    } else {
+      alert('Share this product: ' + window.location.href);
+    }
+  }
+
+  changeMainImage(imgUrl: string) {
+    this.singleDetail.image = imgUrl;
   }
 }

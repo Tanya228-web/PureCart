@@ -1,32 +1,68 @@
-<nav class="nav">
-  <h1><a routerLink="">PureCart</a></h1>
-  @if(isMenu){
-  <div class="nav-search">
-    <input type="text" placeholder="search products" />
-    <button>Search</button>
+<nav class="navbar">
+  <div class="navbar-brand">
+    <h1><a routerLink="/" class="logo">PureCart</a></h1>
+    <button class="menu-toggle" (click)="toggleMobileMenu()" aria-label="Toggle menu">
+      <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+        <line x1="3" y1="12" x2="21" y2="12"></line>
+        <line x1="3" y1="6" x2="21" y2="6"></line>
+        <line x1="3" y1="18" x2="21" y2="18"></line>
+      </svg>
+    </button>
   </div>
-  }
-  <ul>
-    @if(isMenu){
-    <li><a routerLink="seller">Seller</a></li>
-    <li><a routerLink="">Home</a></li>
-  @if(!isLogin){
-    <li><a routerLink="userlogin">Login</a></li>
-  }@else{
-    <li><a (click)="userLogout()">Logout</a></li>
-  }
 
-    <li><a routerLink="addToCart">Cart(0)</a></li>
-
-    } @else {
-    <li><a routerLink="seller-addProduct">add product</a></li>
-    <li><a routerLink="seller-home">list</a></li>
-
-    <li>
-      <a>{{ sellerName }}</a>
-    </li>
-    <li><a (click)="sellerLogout()">Logout</a></li>
-
+  <div class="navbar-content" [class.active]="mobileMenuOpen">
+    @if(isMenu) {
+    <div class="search-container">
+      <div class="search-box">
+        <input type="text" placeholder="Search products..." [(ngModel)]="searchQuery" (keyup.enter)="onSearch()" />
+        <button class="search-button" (click)="onSearch()">
+          <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+            <circle cx="11" cy="11" r="8"></circle>
+            <line x1="21" y1="21" x2="16.65" y2="16.65"></line>
+          </svg>
+        </button>
+      </div>
+      @if(searchResults && searchResults.length > 0) {
+      <div class="search-results">
+        <ul>
+          @for(result of searchResults; track result.id) {
+          <li><a routerLink="/product/{{result.id}}">{{result.name}}</a></li>
+          }
+        </ul>
+      </div>
+      }
+    </div>
     }
-  </ul>
+
+    <ul class="nav-links">
+      @if(isMenu) {
+      <li><a routerLink="/seller" class="nav-link">Seller</a></li>
+      <li><a routerLink="/" class="nav-link">Home</a></li>
+      @if(!isLogin) {
+      <li><a routerLink="/userlogin" class="nav-link">Login</a></li>
+      } @else {
+      <li><a (click)="userLogout()" class="nav-link">Logout</a></li>
+      }
+      <li>
+        <a routerLink="/addToCart" class="nav-link cart-link">
+          <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+            <circle cx="9" cy="21" r="1"></circle>
+            <circle cx="20" cy="21" r="1"></circle>
+            <path d="M1 1h4l2.68 13.39a2 2 0 0 0 2 1.61h9.72a2 2 0 0 0 2-1.61L23 6H6"></path>
+          </svg>
+          <span class="cart-count">{{cartCount}}</span>
+        </a>
+      </li>
+      } @else {
+      <li><a routerLink="/seller-addProduct" class="nav-link">Add Product</a></li>
+      <li><a routerLink="/seller-home" class="nav-link">Products</a></li>
+      <li class="user-profile">
+        <span class="user-name">{{ sellerName }}</span>
+        <div class="user-dropdown">
+          <a (click)="sellerLogout()">Logout</a>
+        </div>
+      </li>
+      }
+    </ul>
+  </div>
 </nav>

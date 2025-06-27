@@ -1,74 +1,311 @@
+/* Modern Variables */
+:root {
+  --primary: #7c3aed;
+  --primary-dark: #5b21b6;
+  --primary-light: #8b5cf6;
+  --text: #1e293b;
+  --text-light: #64748b;
+  --background: #ffffff;
+  --surface: #f8fafc;
+  --border: #e2e8f0;
+  --error: #dc2626;
+  --success: #16a34a;
+  --shadow-sm: 0 1px 2px 0 rgba(0, 0, 0, 0.05);
+  --shadow-md: 0 4px 6px -1px rgba(0, 0, 0, 0.1), 0 2px 4px -1px rgba(0, 0, 0, 0.06);
+  --radius: 0.5rem;
+}
 
-.nav {
-    display: flex;
-    justify-content: space-between;
+/* Base Styles */
+.navbar {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 1rem 2rem;
+  background-color: var(--background);
+  /* box-shadow: var(--shadow-sm); */
+  position: relative;
+  z-index: 50;
+}
+
+.navbar-brand {
+  display: flex;
+  align-items: center;
+  gap: 1rem;
+}
+
+.logo {
+  color: var(--primary);
+  font-size: 1.75rem;
+  font-weight: 700;
+  text-decoration: none;
+  transition: color 0.2s ease;
+}
+
+.logo:hover {
+  color: var(--primary-dark);
+}
+
+.menu-toggle {
+  display: none;
+  background: none;
+  border: none;
+  color: var(--text);
+  cursor: pointer;
+  padding: 0.5rem;
+}
+
+.navbar-content {
+  display: flex;
+  align-items: center;
+  gap: 2rem;
+}
+
+.search-container {
+  position: relative;
+  flex: 1;
+  max-width: 600px;
+}
+
+.search-box {
+  display: flex;
+  border: 1px solid var(--border);
+  border-radius: var(--radius);
+  overflow: hidden;
+  transition: all 0.2s ease;
+}
+
+.search-box:focus-within {
+  border-color: var(--primary);
+  box-shadow: 0 0 0 3px rgba(124, 58, 237, 0.1);
+}
+
+.search-box input {
+  flex: 1;
+  padding: 0.75rem 1rem;
+  border: none;
+  outline: none;
+  font-size: 1rem;
+  color: var(--text);
+}
+
+.search-button {
+  background-color: var(--primary);
+  color: white;
+  border: none;
+  padding: 0 1rem;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  transition: background-color 0.2s ease;
+}
+
+.search-button:hover {
+  background-color: var(--primary-dark);
+}
+
+.search-results {
+  position: absolute;
+  top: 100%;
+  left: 0;
+  right: 0;
+  background-color: var(--background);
+  border: 1px solid var(--border);
+  border-radius: 0 0 var(--radius) var(--radius);
+  box-shadow: var(--shadow-md);
+  z-index: 10;
+  max-height: 300px;
+  overflow-y: auto;
+}
+
+.search-results ul {
+  list-style: none;
+  padding: 0;
+  margin: 0;
+}
+
+.search-results li {
+  padding: 0.75rem 1rem;
+  border-bottom: 1px solid var(--border);
+}
+
+.search-results li:last-child {
+  border-bottom: none;
+}
+
+.search-results a {
+  color: var(--text);
+  text-decoration: none;
+  display: block;
+  transition: color 0.2s ease;
+}
+
+.search-results a:hover {
+  color: var(--primary);
+}
+
+.nav-links {
+  display: flex;
+  align-items: center;
+  gap: 1.5rem;
+  list-style: none;
+  margin: 0;
+  padding: 0;
+}
+
+.nav-link {
+  color: var(--text);
+  text-decoration: none;
+  font-weight: 500;
+  padding: 0.5rem 0;
+  position: relative;
+  transition: color 0.2s ease;
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+}
+
+.nav-link:hover {
+  color: var(--primary);
+}
+
+.nav-link svg {
+  width: 1.25rem;
+  height: 1.25rem;
+}
+
+.cart-link {
+  position: relative;
+}
+
+.cart-count {
+  background-color: var(--primary);
+  color: white;
+  border-radius: 50%;
+  width: 1.25rem;
+  height: 1.25rem;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 0.75rem;
+  position: absolute;
+  top: -0.5rem;
+  right: -0.5rem;
+}
+
+.user-profile {
+  position: relative;
+  cursor: pointer;
+}
+
+.user-name {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+  color: var(--text);
+  font-weight: 500;
+}
+
+.user-dropdown {
+  position: absolute;
+  top: 100%;
+  right: 0;
+  background-color: var(--background);
+  border: 1px solid var(--border);
+  border-radius: var(--radius);
+  box-shadow: var(--shadow-md);
+  padding: 0.5rem 0;
+  min-width: 150px;
+  opacity: 0;
+  visibility: hidden;
+  transition: all 0.2s ease;
+  z-index: 10;
+}
+
+.user-profile:hover .user-dropdown {
+  opacity: 1;
+  visibility: visible;
+}
+
+.user-dropdown a {
+  display: block;
+  padding: 0.5rem 1rem;
+  color: var(--text);
+  text-decoration: none;
+  transition: background-color 0.2s ease;
+}
+
+.user-dropdown a:hover {
+  background-color: var(--surface);
+  color: var(--primary);
+}
+
+/* Responsive Styles */
+@media (max-width: 1024px) {
+  .navbar {
+    padding: 1rem;
   }
   
-  .nav h1 {
-    color: blueviolet;
-    margin: 0;
-    font-size: 40px;
+  .navbar-content {
+    gap: 1rem;
   }
-  .nav .nav-search {
-    flex: 1;
-    display: flex;
-    margin-left: 5%;
-    margin-right: 5%;
-    margin-top: 5px;
+}
+
+@media (max-width: 768px) {
+  .menu-toggle {
+    display: block;
   }
   
-  .nav .nav-search input {
-      flex: 1;
-      color: blueviolet;
-      border: 1px solid blueviolet;
-      height: 39px;
-      border-right: none;
+  .navbar-content {
+    position: fixed;
+    top: 70px;
+    left: 0;
+    right: 0;
+    background-color: var(--background);
+    flex-direction: column;
+    padding: 1rem;
+    box-shadow: var(--shadow-md);
+    transform: translateY(-100%);
+    opacity: 0;
+    visibility: hidden;
+    transition: all 0.3s ease;
+    gap: 1.5rem;
   }
   
-  .nav .nav-search button{
-      color: blueviolet;
-      border: 1px solid blueviolet;
-      height: 39px;
+  .navbar-content.active {
+    transform: translateY(0);
+    opacity: 1;
+    visibility: visible;
   }
   
-  .nav ul {
-      display: inline-flex;
-      margin: 0;
-      padding: 0;
-      list-style-type: none;
+  .search-container {
+    width: 100%;
+    max-width: none;
   }
   
-  .nav ul li{
-      padding-left: 15px;
-      padding-top: 15px;
+  .nav-links {
+    flex-direction: column;
+    width: 100%;
+    align-items: flex-start;
+    gap: 1rem;
   }
   
-  .nav ul a {
-      text-decoration: none;
-      color: blueviolet;
-      cursor: pointer;
+  .nav-link {
+    padding: 0.75rem 0;
+    width: 100%;
   }
   
-  h1 a{
-    color: blueviolet;
-    text-decoration: none;
+  .user-profile {
+    width: 100%;
   }
   
-  .suggested-search{
-    position: absolute;
-    top: 40px;
-    z-index: 10;
-    display: list-item !important;
-    border: 1px solid #ddd;
-    background-color: #fff;
-    width: 300px;
+  .user-dropdown {
+    position: static;
+    opacity: 1;
+    visibility: visible;
+    box-shadow: none;
+    border: none;
+    padding: 0;
+    margin-top: 0.5rem;
   }
-  .suggested-search li {
-    padding:5px;
-    border: 1px solid #ddd;
-  }
-  .suggested-search li a{
-    cursor: pointer;
-    color: blueviolet;
-  }
-  
+}

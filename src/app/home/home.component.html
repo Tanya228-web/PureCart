@@ -1,39 +1,62 @@
-<ngb-carousel *ngIf="filterProduct?.length">
-    <ng-container *ngFor="let item of filterProduct">
-      <ng-template ngbSlide>
-        <div class="picsum-img-wrapper">
-          <a routerLink="product/{{item.id}}/productDetails">
-            <img class="product-header-image" [src]="item.image" alt="Slide image" />
+<!-- home.component.html -->
+<div class="product-container">
+  <!-- Featured Products Carousel -->
+  <section *ngIf="filterProduct?.length" class="featured-section">
+    <h2 class="section-title">Featured Products</h2>
+    <ngb-carousel>
+      <ng-container *ngFor="let item of filterProduct">
+        <ng-template ngbSlide>
+          <div class="carousel-item-wrapper">
+            <a routerLink="product/{{item.id}}/productDetails" class="product-link">
+              <img class="product-featured-image" [src]="item.image" [alt]="item.name" />
+            </a>
+          </div>
+          <div class="carousel-caption">
+            <h3>{{ item.name }}</h3>
+            <p class="product-description">{{ item.description}}</p>
+            <div class="price-badge">₹{{ item.price}}</div>
+          </div>
+        </ng-template>
+      </ng-container>
+    </ngb-carousel>
+  </section>
+
+  <!-- Product Grid -->
+  <section class="product-grid-section">
+    <h2 class="section-title">Trendy Products</h2>
+    <div class="product-grid">
+      <div *ngFor="let item of products" class="product-card">
+        <div class="product-image-container">
+          <a routerLink="product/{{item.id}}/productDetails" class="product-link">
+            <img [src]="item.image" [alt]="item.name" class="product-image" />
           </a>
+          <div *ngIf="item.price > 5000" class="premium-badge">Premium</div>
         </div>
-        <div class="carousel-caption">
-          <h3>{{ item.name }}</h3>
-          <p>{{ item.description }}</p>
-        </div>
-      </ng-template>
-    </ng-container>
-  </ngb-carousel>
-  
-<div class="product-list-wrapper">
-  <h1>Trendy Products</h1>
-  <div class="row">
-    <div class="col-sm-3" *ngFor="let item of products">
-      <div class="product-item">
-        <img src="{{ item.image }}" alt="" />
-        <div class="product-details">
-          <h6 class="name-head">{{ item.name }}</h6>
-          <div class="product-price">
-            <h6>Price:{{ item.price }}</h6>
-          </div>
-          <div class="product-color">
-            <h6>Color:{{ item.color }}</h6>
+        
+        <div class="product-info">
+          <h3 class="product-name">{{ item.name }}</h3>
+          
+          <div class="product-meta">
+            <div class="product-price">
+              <span class="price-label">Price:</span>
+              <span class="price-value">₹{{ item.price }}</span>
+            </div>
+            <div class="product-color">
+              <span class="color-label">Color:</span>
+              <span class="color-value">{{ item.color }}</span>
+            </div>
           </div>
         </div>
-        <div class="product-footer">
-          <a routerLink="product/{{item.id}}/productDetails">View Details</a>
-          <!-- <a href="">Add to Cart</a> -->
+        
+        <div class="product-actions">
+          <a routerLink="product/{{item.id}}/productDetails" class="view-details-btn">
+            View Details
+          </a>
+          <button class="add-to-cart-btn" (click)="addToCart(item)">
+            Add to Cart
+          </button>
         </div>
       </div>
     </div>
-  </div>
+  </section>
 </div>
